@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="gb2312">
+<title>zyt</title>
+<meta name="keywords" content="个人博客" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../tool/boostrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="../static/css/base.css" rel="stylesheet">
+<link href="../static/css/index.css" rel="stylesheet">
+<link href="../static/css/m.css" rel="stylesheet">
+<script type="text/javascript" src="../static/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../tool/boostrap/js/bootstrap.min.js"></script>
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+<style>
+	.top{
+		margin:20px 20px;
+	}
+	.cen{
+		display:table;
+		width:auto;
+		margin-left:auto;
+		margin-right:auto;
+	}
+</style>
+<script>
+window.onload = function ()
+{
+	var oH2 = document.getElementsByTagName("h2")[0];
+	var oUl = document.getElementsByTagName("ul")[0];
+	oH2.onclick = function ()
+	{
+		var style = oUl.style;
+		style.display = style.display == "block" ? "none" : "block";
+		oH2.className = style.display == "block" ? "open" : ""
+	}
+	showBlogType();
+}
+</script>
+</head>
+<body>
+<header>
+  <div class="tophead">
+    <div class="logo"><a href="/">张耀天个人博客</a></div>
+    <div id="mnav">
+      <h2><span class="navicon"></span></h2>
+      <ul id="typeUl">
+					<li><a href="/">网站首页</a></li>
+					<li><a href="../html/about.html">关于我</a></li>
+				    <li><a href="../html/gbook.html">留言</a></li>
+				  	<li>
+				    <a href="/" >
+				      	文章分类 <span class="caret"></span>
+				    </a>
+				  	</li>
+				</ul>
+		    </div>
+			<nav class="topnav" id="topnav">
+				<ul class="nav nav-tabs" style="float:right">
+					<li><a href="/">网站首页</a></li>
+					<li><a href="../html/about.html">关于我</a></li>
+				  	<li role="presentation" class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+					      	文章分类 <span class="caret"></span>
+					    </a>
+					    <ul class="dropdown-menu typeUl" id="typeUl1">
+					    	
+					    </ul>
+				  	</li>
+				    <li><a href="../html/gbook.html">留言</a></li>
+				</ul>
+    </nav>
+  </div>
+</header>
+<article>
+  <h1 class="t_nav"><span>像“草根”一样，紧贴着地面，低调的存在，冬去春来，枯荣无恙。</span><a href="/" class="n1">网站首页</a><a href="#" class="n2">留言</a></h1>
+  <div class="ab_box">
+  	<h1 class="cen">在线留言</h1>
+    <form class="form-search" id="MessageForm">
+  		<div class="row top">
+		  <div class="col-lg-6">
+		    <div class="input-group input-group-lg">
+			  <span class="input-group-addon " id="sizing-addon1"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+			  <input type="text" name="NAME" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+			</div>
+		  </div>
+		  <div class="col-lg-6">
+		  	<div class="input-group input-group-lg">
+			  <span class="input-group-addon " id="sizing-addon1"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
+			  <input type="text" name="EMAIL" class="form-control" placeholder="E-mail" aria-describedby="sizing-addon1">
+			</div>
+		  </div>
+		</div>
+		<div class="row top">
+			<div class="col-lg-12">
+				<div class="input-group input-group-lg">
+				  <span class="input-group-addon " id="sizing-addon1"><i class="glyphicon glyphicon-text-size" aria-hidden="true"></i></span>
+				  <input type="text" name="TITLE" class="form-control" placeholder="Title" aria-describedby="sizing-addon1">
+				</div>
+			</div>
+		</div>
+		<div class="row top">
+			<div class="col-lg-12">
+				<div class="input-group input-group-lg">
+				  <span class="input-group-addon " id="sizing-addon1"><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i></span>
+				  <input type="text" name="CONTENT" class="form-control" placeholder="Text" aria-describedby="sizing-addon1">
+				</div>
+			</div>
+		</div>
+		<div class="row top">
+			<div class="col-lg-12">
+			 	<button id="sbtn" type="button" class="btn btn-lg cen"><i class="glyphicon glyphicon-share-alt" aria-hidden="true"></i><span>Submit</span></button>
+			</div>
+		</div>
+	</form>
+  </div>
+<script>
+function CheckForm1(obj) { 
+	if (obj.length == 0) { 
+		alert("Username不能为空!"); 
+		return false; 
+	} 
+	return true; 
+}
+function CheckForm2(obj) { 
+	if (obj.length == 0) { 
+		alert("E-mail不能为空!"); 
+		return false; 
+	} 
+	return true; 
+} 
+function CheckForm3(obj) { 
+	if (obj.length == 0) { 
+		alert("Title不能为空!"); 
+		return false; 
+	} 
+	return true; 
+} 
+function CheckForm4(obj) { 
+	if (obj.length == 0) { 
+		alert("Text不能为空!"); 
+		return false; 
+	} 
+	return true; 
+} 
+
+	$('#sbtn').click(function(){
+		var name = $('input[name="NAME"]').val();
+		var email = $('input[name="EMAIL"]').val();
+		var title = $('input[name="TITLE"]').val();
+		var content = $('input[name="CONTENT"]').val();
+		if(!CheckForm1(name)){
+			return ;
+		};
+		if(!CheckForm2(email)){
+			return ;
+		};
+		if(!CheckForm3(title)){
+			return ;
+		};
+		if(!CheckForm4(content)){
+			return ;
+		};
+		 $.ajax({
+				url : "/blogComment/leaveMessage",
+				type : "post",
+				data : $('#MessageForm').serialize(),
+				dataType : "json",
+				success : function(msg) {
+					if(msg.code != 0){
+		   				return ;
+		   			}
+					$('#MessageForm input').val("");
+				}
+		 });
+		
+	})
+</script>
+</article>
+<footer>
+  <p>Design by <a href="/">个人博客</a> <a href="/">蜀ICP备11002373号-1</a></p>
+</footer>
+<script src="../static/js/nav.js"></script>
+<script src="../static/js/comment.js"></script>
+</body>
+</html>

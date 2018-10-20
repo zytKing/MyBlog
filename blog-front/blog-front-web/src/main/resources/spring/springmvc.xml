@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd">      
+	<!-- 配置注解驱动 -->
+	<mvc:annotation-driven />
+	<!-- 视图解析器 -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" />
+	<!-- 配置包扫描器，扫描@Controller注解的类 -->
+	<context:component-scan base-package="com.zyt.blog.front.controller"/>
+	<!-- 配置资源映射 -->
+	<mvc:resources location="/" mapping="*.html"/>
+	<mvc:resources location="/html/" mapping="/html/**"/>
+	<mvc:resources location="/static/css/" mapping="/static/css/**"/>
+	<mvc:resources location="/static/js/" mapping="/static/js/**"/>
+	<mvc:resources location="/static/images/" mapping="/static/images/**"/>
+	<mvc:resources location="/tool/bootstrap/" mapping="/tool/boostrap/**"/>
+	<!-- <mvc:resources location="/upload/" mapping="/upload/**"/> -->
+	<!-- 多媒体解析器 -->
+	<!-- 配置文件上传解析器 -->
+	<!-- <bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		设定默认编码
+		<property name="defaultEncoding" value="UTF-8"></property>
+		设定文件上传的最大值5MB，5*1024*1024
+		<property name="maxUploadSize" value="5242880"></property>
+	</bean> -->
+</beans>      

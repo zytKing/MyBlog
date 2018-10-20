@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>zyt</title>
+<meta name="keywords" content="个人博客" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../tool/boostrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="../static/css/base.css" rel="stylesheet">
+<link href="../static/css/index.css" rel="stylesheet">
+<link href="../static/css/m.css" rel="stylesheet">
+<script type="text/javascript" src="../static/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../tool/boostrap/js/bootstrap.min.js"></script>
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+<script>
+{
+	var id ;
+}
+window.onload = function ()
+{
+	var oH2 = document.getElementsByTagName("h2")[0];
+	var oUl = document.getElementsByTagName("ul")[0];
+	oH2.onclick = function ()
+	{
+		var style = oUl.style;
+		style.display = style.display == "block" ? "none" : "block";
+		oH2.className = style.display == "block" ? "open" : ""
+	}
+	showBlogType();
+	var Request = new Object(); 
+	Request = GetRequest();
+	id = Request['typeId']
+	console.log(id);
+	showBlogByType(1,1,id);
+}
+
+function showBlogByType(page,rows,typeId){
+	$.ajax({
+		url:"/blogFront/blogTypeList",
+		type:"get",
+		data:{"page":page,"rows":rows,"typeId":typeId},
+		dataType:"json",
+		success:function(msg){
+			if(msg.code != 0){
+				alert("出错了");
+				return ;
+			}
+			$('#blogList').html("");
+			$('#paging').html("");
+			console.log(msg.des);
+			xxx(msg);
+			var page = "<ul class='pagination'>"
+				+"<li>"
+				+"	<a href='#' aria-label='Previous'>"
+				+"		<span aria-hidden='true'>&laquo;</span>"
+				+"	</a>"
+				+"</li>";
+			var num = msg.des.navigatepageNums; 
+			$.each(num,function(i,p){
+				page = page +"<li><a href='javascript:void(0);' onclick='showBlogByType("+p+",1,"+id+")'>"+p+"</a></li>";
+				
+			});
+			page = page 
+			+"<li>"
+			+"	<a href='#' aria-label='Next'>" 
+			+"		<span aria-hidden='true'>&raquo;</span>"
+			+"	</a>"
+			+"	</li>"
+			+"</ul>";
+			
+			$("#paging").append(page);
+		}
+	});
+}
+</script>
+</head>
+<body>
+<header>
+  <div class="tophead">
+    <div class="logo"><a href="/">zyt个人博客</a></div>
+    <div id="mnav">
+      <h2><span class="navicon"></span></h2>
+      <ul id="typeUl">
+			<li><a href="/">网站首页</a></li>
+			<li><a href="../html/about.html">关于我</a></li>
+		  	<li><a href="../html/gbook.html">留言</a></li>
+		 	<li>
+			   	<a href="/" >
+			     	文章分类 <span class="caret"></span>
+			   	</a>
+		 	</li>
+		</ul>
+   </div>
+	<nav class="topnav" id="topnav">
+		<ul class="nav nav-tabs" style="float:right">
+			<li><a href="/">网站首页</a></li>
+			<li><a href="../html/about.html">关于我</a></li>
+		  	<li role="presentation" class="dropdown">
+			    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+			      	文章分类 <span class="caret"></span>
+			    </a>
+			    <ul class="dropdown-menu typeUl" id="typeUl1">
+			    </ul>
+			</li>
+		    <li><a href="../html/gbook.html">留言</a></li>
+		</ul>
+    </nav>
+  </div>
+</header>
+<article>
+  <h1 class="t_nav"><span>不要轻易放弃。学习成长的路上，我们长路漫漫，只因学无止境。 </span><a href="/" class="n1">网站首页</a><a href="/" class="n2">文章分类</a></h1>
+  <div class="blogs">
+    <!-- <div class="mt20"></div> -->
+    <ul id="blogList"></ul>
+    <div id="paging" style="text-align: center"></div>
+	<!-- <div class="pagelist"><a title="Total record">&nbsp;<b>45</b> </a>&nbsp;&nbsp;&nbsp;<b>1</b>&nbsp;<a href="/download/index_2.html">2</a>&nbsp;<a href="/download/index_2.html">下一页</a>&nbsp;<a href="/download/index_2.html">尾页</a></div> -->
+  </div>
+  <div class="sidebar">
+    <!-- <div class="search">
+      <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+        <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+        <input name="show" value="title" type="hidden">
+        <input name="tempid" value="1" type="hidden">
+        <input name="tbname" value="news" type="hidden">
+        <input name="Submit" class="input_submit" value="搜索" type="submit">
+      </form>
+    </div> -->
+    <div class="lmnav">
+      <h2 class="hometitle">栏目导航</h2>
+      <ul class="navbor">
+        <li><a href="../html/about.html">关于我</a></li>
+        <li><a href="#">文章分类</a>
+          <ul class="typeUl">
+          </ul>
+        </li>
+        <li><a href="../html/gbook.html">留言</a></li>
+      </ul>
+    </div>
+    <div class="paihang">
+      <h2 class="hometitle">点击排行</h2>
+      <ul>
+        <li><b><a href="/download/div/2015-04-10/746.html" target="_blank">【活动作品】柠檬绿兔小白个人博客模板30...</a></b>
+          <p><i><img src="../static/images/t02.jpg"></i>展示的是首页html，博客页面布局格式简单，没有复杂的背景，色彩局部点缀，动态的幻灯片展示，切换卡，标...</p>
+        </li>
+      </ul>
+    </div>
+    <div class="cloud">
+      <h2 class="hometitle">标签云</h2>
+      <ul>
+        <a href="/">陌上花开</a> <a href="/">校园生活</a> <a href="/">html5</a> <a href="/">SumSung</a> <a href="/">青春</a> <a href="/">温暖</a> <a href="/">阳光</a> <a href="/">三星</a><a href="/">索尼</a> <a href="/">华维荣耀</a> <a href="/">三星</a> <a href="/">索尼</a>
+      </ul>
+    </div>
+    <div class="paihang">
+      <h2 class="hometitle">站长推荐</h2>
+      <ul>
+        <li><b><a href="/download/div/2015-04-10/746.html" target="_blank">【活动作品】柠檬绿兔小白个人博客模板30...</a></b>
+          <p><i><img src="../static/images/t02.jpg"></i>展示的是首页html，博客页面布局格式简单，没有复杂的背景，色彩局部点缀，动态的幻灯片展示，切换卡，标...</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</article>
+<footer>
+  <p>Design by <a href="/">杨青个人博客</a> <a href="/">蜀ICP备11002373号-1</a></p>
+</footer>
+<script src="../static/js/nav.js"></script>
+<script src="../static/js/comment.js"></script>
+</body>
+</html>
