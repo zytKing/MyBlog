@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css"
+	href="../js/jquery-easyui-1.4.1/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="../js/jquery-easyui-1.4.1/themes/icon.css" />
+<script type="text/javascript"
+	src="../js/jquery-easyui-1.4.1/jquery.min.js"></script>
+<script type="text/javascript"
+	src="../js/jquery-easyui-1.4.1/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="../js/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../js/comment.js"></script>
+</head>
+<body>
+	<table class="easyui-datagrid" id="blogTypeList" title="博客分类列表"
+		data-options="singleSelect:false,collapsible:true,pagination:true,url:'/blogType/list',method:'get',pageSize:10,pageList:[10],toolbar:toolbar">
+		<thead>
+			<tr>
+				<th data-options="field:'ck',checkbox:true"></th>
+				<th data-options="field:'id',width:60">ID</th>
+				<th data-options="field:'typename',width:200">博客类型</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="blogTypeEditWindow" class="easyui-window" title="编辑博客类型" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:50%;padding:10px;">
+		<form id="blogEditForm" method="post">
+		<input type="hidden" name="_method" value="put" />
+			<table>
+				<tr>
+					<td width="80px">分类名称：</td>
+					<td><input class="easyui-textbox" type="text" id="title"
+						name="TYPENAME" style="width: 400px" /></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><a href="javascript:submitEdit()"
+						class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存博客类型</a></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div id="blogTypeAddWindow" class="easyui-window" title="添加博客类型" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:50%;padding:10px;">
+		<form id="blogAddForm" method="post">
+			<table>
+				<tr>
+					<td width="80px">分类名称：</td>
+					<td><input class="easyui-textbox" type="text" id="title"
+						name="TYPENAME" style="width: 400px" /></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><a href="javascript:submitAdd()"
+						class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存博客类型</a></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+<script type="text/javascript">
+var toolbar = [{
+    text:'新增',
+    iconCls:'icon-add',
+    handler:function(){
+    	$("#blogTypeAddWindow").window('open');
+    }
+},'-',{
+    text:'编辑',
+    iconCls:'icon-edit',
+    handler:function(){
+    	var ids = getSelectionsIds($("#blogTypeList"));
+    	if(ids.length == 0){
+    		$.messager.alert('提示','必须选择一个类型才能编辑!');
+    		return ;
+    	}
+    	if(ids.indexOf(',') > 0){
+    		$.messager.alert('提示','只能选择一个类型!');
+    		return ;
+    	}
+    	
+    	$("#blogTypeEditWindow").window('open');
+    }
+},'-',{
+    text:'删除',
+    iconCls:'icon-cancel',
+    handler:function(){
+    	var ids = getSelectionsIds($("#blogTypeList"));
+    	if(ids.length == 0){
+    		$.messager.alert('提示','未选中博客!');
+    		return ;
+    	}
+    	if(ids.indexOf(',') > 0){
+    		$.messager.alert('提示','只能选择一个类型!');
+    		return ;
+    	}
+    	$.messager.confirm('确认','确定删除ID为 '+ids+' 的类型吗？',function(r){
+    	    if (r){
+    	    	var params = {"ID":ids,"_method":"delete"};
+            	/* $.post("/rest/item/delete",params, function(data){
+        			if(data.status == 200){
+        				$.messager.alert('提示','删除商品成功!',undefined,function(){
+        					$("#blogTypeList").datagrid("reload");
+        				});
+        			}
+        		}); */
+            	
+            	$.ajax({
+            		url:"/blogType/deleteBlogType",
+            		type:"post",
+            		data: params,
+            		dataType:"json",
+            		success:function(msg){
+            			if(msg.code != 0){
+            				$.messager.alert('错误','删除失败');
+            				return ;
+            			}
+            			$.messager.alert('提示','删除成功!',undefined,function(){
+        					$("#blogTypeList").datagrid("reload");
+        				});
+            		}
+            	});
+    	    }
+    	});
+    }
+}];
+
+function submitEdit(){
+	var ids = getSelectionsIds($("#blogTypeList"));
+	console.log(ids);
+	console.log($('#blogEditForm').serialize());
+	var data = $('#blogEditForm').serialize();
+	$.ajax({
+		url:"/blogType/editBlogType",
+		type:"post",
+		data: data +"&ID="+ids,
+		dataType:"json",
+		success:function(msg){
+			if(msg.code != 0){
+				$.messager.alert('错误','修改失败');
+				return ;
+			}
+			$.messager.alert('提示','修改成功!',undefined,function(){
+				$("#blogTypeEditWindow").window('close');
+				$("#blogTypeList").datagrid("reload");
+			});
+		}
+	})
+}
+function submitAdd(){
+	console.log($('#blogAddForm').serialize());
+	$.ajax({
+		url:"/blogType/addBlogType",
+		type:"post",
+		data:$('#blogAddForm').serialize(),
+		dataType:"json",
+		success:function(msg){
+			if(msg.code != 0){
+				$.messager.alert('错误','可能是分类名重复');
+				return ;
+			}
+			$.messager.alert('提示','添加成功!',undefined,function(){
+				$("#blogTypeAddWindow").window('close');
+				$("#blogTypeList").datagrid("reload");
+			});
+		}
+	})
+}
+</script>
+</html>

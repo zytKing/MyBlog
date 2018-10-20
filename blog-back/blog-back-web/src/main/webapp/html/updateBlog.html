@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css"
+	href="../js/jquery-easyui-1.4.1/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="../js/jquery-easyui-1.4.1/themes/icon.css" />
+<link rel="stylesheet"
+	href="../js/kindeditor-4.1.10/themes/default/default.css" />
+<script type="text/javascript"
+	src="../js/jquery-easyui-1.4.1/jquery.min.js"></script>
+<script type="text/javascript"
+	src="../js/jquery-easyui-1.4.1/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="../js/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"></script>
+<script charset="utf-8" src="../js/kindeditor-4.1.10/kindeditor-all.js"></script>
+<script charset="utf-8" src="../js/kindeditor-4.1.10/lang/zh_CN.js"></script>
+
+</head>
+<body>
+	<div id="p" class="easyui-panel" title="编辑博客" style="padding: 10px;">
+		<form id="blogEditForm" method="post">
+			<input type="hidden" name="_method" value="put" />
+			<table cellspacing="20px">
+				<tr>
+					<td width="80px">博客标题：</td>
+					<td><input class="easyui-textbox" type="text" id="title"
+						name="TITLE" style="width: 400px" /></td>
+				</tr>
+				<tr>
+					<td>博客简介:</td>
+					<td><input class="easyui-textbox" name="DIGEST" id="digest"
+						data-options="multiline:true,validType:'length[0,150]'"
+						style="height: 60px; width: 280px;"></input></td>
+				</tr>
+				<tr>
+					<td>所属类别：</td>
+					<td><select id="blogTypeId"
+						name="TYPE_ID" style="width: 200px">
+					</select></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td valign="top">博客内容：</td>
+					<td><textarea id="ceid" name="CONTENT"
+							style="width: 700px; height: 200px; visibility: hidden;"></textarea></td>
+				</tr>
+				<tr>
+					<td>关键字：</td>
+					<td><input type="text" id="keyWord" name="KEY_WORD"
+						style="width: 400px" />&nbsp;&nbsp;&nbsp;多个关键字的话请用空格隔开</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><a href="javascript:updateSubmit()"
+						class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存博客</a></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+<script type="text/javascript">
+	{
+		var id ;
+	}
+	$(function() {
+		showBlogType();
+		var editor;
+		window.editor = KindEditor
+				.create(
+						'#ceid',
+						{
+							uploadJson : '/fileUpload',
+							fileManagerJson : '/fileManager',
+							allowImageUpload : true,
+							allowFileManager : true,
+							afterCreate : function() { //kindeditor创建后，将编辑器的内容设置到原来的textarea控件里
+								this.sync();
+							},
+							afterChange : function() { //编辑器内容发生变化后，将编辑器的内容设置到原来的textarea控件里
+								this.sync();
+							},
+							afterBlur : function() { //编辑器聚焦后，将编辑器的内容设置到原来的textarea控件里
+								this.sync();
+							}
+						});
+		
+		var Request = new Object(); 
+		function GetRequest() { 
+			var url = location.search; //获取url中"?"符后的字串 
+			var theRequest = new Object(); 
+			if (url.indexOf("?") != -1) { 
+			var str = url.substr(1); 
+			strs = str.split("&"); 
+			for(var i = 0; i < strs.length; i ++) { 
+			theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+			} 
+			} 
+			return theRequest; 
+			} 
+		Request = GetRequest(); 
+		id = Request['id']; 
+		console.log(id);
+			 $.ajax({
+					url : "/blog/findBlog/"+id,
+					type : "get",
+					data :{},
+					dataType : "json",
+					success : function(msg) {
+						if(msg.code != 0){
+			   				$.messager.alert('提示','回显失败');
+			   				return ;
+			   			}
+						var data = msg.des;
+						console.log(data);
+						window.editor.html(data.content)
+						$("#blogEditForm").form('load',{
+							TITLE : data.title,
+							DIGEST : data.digest,
+							TYPE_ID : data.type_ID,
+							KEY_WORD : data.key_WORD
+						});				
+					}
+				});
+	});
+	
+	function updateSubmit(){
+		var typeid = $('#blogTypeId').combo('getValue');
+		console.log($('#blogEditForm').serialize());
+		if (typeid == -1) {
+			$.messager.alert('提示', '未选择博客类型!');
+			return;
+		}
+		 $.ajax({
+			url : "/blog/updateBlog",
+			type : "post",
+			data : $('#blogEditForm').serialize() + "&ID="+id,
+			dataType : "json",
+			success : function(msg) {
+				if(msg.code != 0){
+					$.messager.alert('错误','保存失败');
+					return ;
+				}
+				$.messager.alert('提示','保存成功!',undefined,function(){
+					window.parent.$('#tabs').tabs("close","编辑博客");
+				});
+			}
+		})
+	}
+	
+	
+</script>
+<script type="text/javascript" src="../js/comment.js"></script>
+</html>

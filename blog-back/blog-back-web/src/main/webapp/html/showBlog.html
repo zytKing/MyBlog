@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css"
+	href="../js/jquery-easyui-1.4.1/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="../js/jquery-easyui-1.4.1/themes/icon.css" />
+<script type="text/javascript"
+	src="../js/jquery-easyui-1.4.1/jquery.min.js"></script>
+<script type="text/javascript"
+	src="../js/jquery-easyui-1.4.1/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="../js/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../js/comment.js"></script>
+</head>
+<body>
+	<table id="showBlogList"></table>
+	<script type="text/javascript">
+	function getSelections(){
+		var blogList = $("#showBlogList");
+		var sels = blogList.datagrid("getSelections");
+		return sels[0];
+	}
+		$('#showBlogList').datagrid({    
+		    url:'/blog/list',    
+		    columns:[[    
+		        {field:'ck',checkbox:true,width:100},    
+		        {field:'id',title:'ID',width:100},    
+		        {field:'title',title:'标题',width:100},    
+		        {field:'digest',title:'简介',width:200},    
+		        {field:'date',title:'创建日期',width:100},    
+		        {field:'publish',title:'发布',width:100},    
+		        {field:'type_ID',title:'类型',width:100},    
+		        {field:'key_WORD',title:'关键字',width:200},    
+		    ]],  
+		    singleSelect:true,
+			autoRowHeight:false,
+			pagination:true,
+			pageList:[10],
+			toolbar: [{
+				text:'编辑',
+				iconCls:'icon-add',
+				handler:function(){
+					var data = getSelections();
+					if(data == null){
+						$.messager.alert('提示','未选中博客!');
+						return ;						
+					}
+					window.parent.openTab("编辑博客","updateBlog.html?id=" + data.id,"icon-edit");
+				}
+			},'-',{
+				text:'删除',
+				iconCls: 'icon-cancel',
+				handler: function(){
+					var data = getSelections();
+					if(data == null){
+						$.messager.alert('提示','未选中博客!');
+						return ;						
+					}
+					$.messager.confirm('确认','确定删除ID为 '+data.id+' 的类型吗？',function(r){
+						if(r){
+							var params = {"id":data.id,"_method":"delete"};
+							$.ajax({
+			            		url:"/blog/deleteBlog",
+			            		type:"post",
+			            		data: params,
+			            		dataType:"json",
+			            		success:function(msg){
+			            			if(msg.code != 0){
+			            				$.messager.alert('错误','删除失败');
+			            				return ;
+			            			}
+			            			$.messager.alert('提示','删除成功!',undefined,function(){
+				            			$("#showBlogList").datagrid("reload");
+			        				});
+			            		}
+			            	});
+						}
+					});
+				}
+			},'-',{
+				text:'发布',
+				iconCls: 'icon-ok',
+				handler: function(){
+					var data = getSelections();
+					if(data == null){
+						$.messager.alert('提示','请选择一个博客');
+						return ;						
+					}
+					if(data.publish){
+						$.messager.alert('提示','已发布');
+						return ;
+					}
+					var params = {"id":data.id,"_method":"put"};
+					$.ajax({
+	            		url:"/blog/publishBlog",
+	            		type:"post",
+	            		data: params,
+	            		dataType:"json",
+	            		success:function(msg){
+	            			if(msg.code != 0){
+	            				$.messager.alert('错误','发布失败');
+	            				return ;
+	            			}
+	            			$.messager.alert('提示','发布成功!',undefined,function(){
+		            			$("#showBlogList").datagrid("reload");
+	        				});
+	            		}
+	            	});
+				}
+			}]
+		});  
+
+
+	</script>
+</body>
+</html>

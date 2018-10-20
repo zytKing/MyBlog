@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css"
+	href="../js/jquery-easyui-1.4.1/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="../js/jquery-easyui-1.4.1/themes/icon.css" />
+<script type="text/javascript"
+	src="../js/jquery-easyui-1.4.1/jquery.min.js"></script>
+<script type="text/javascript"
+	src="../js/jquery-easyui-1.4.1/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="../js/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../js/comment.js"></script>
+</head>
+<body>
+<table class="easyui-datagrid" id="MessageList" title="留言列表"
+	data-options="singleSelect:false,collapsible:true,pagination:true,url:'/message/showCommentList',method:'get',pageSize:10,pageList:[3,5,10],toolbar:toolbar">
+	<thead>
+		<tr>
+			<th data-options="field:'ck',checkbox:true"></th>
+			<th data-options="field:'id',width:200">ID</th>
+			<th data-options="field:'name',width:200">用户名</th>
+			<th data-options="field:'content',width:200">评论内容</th>
+			<th data-options="field:'blog_CONTENT_ID',width:200">文章ID</th>
+			<th data-options="field:'date',width:200">评论日期</th>
+		</tr>
+	</thead>
+</table>
+</body>
+<script type="text/javascript">
+var toolbar = [{
+    text:'删除',
+    iconCls:'icon-cancel',
+    handler:function(){
+    	var ids = getSelectionsIds($("#MessageList"));
+    	if(ids.length == 0){
+    		$.messager.alert('提示','未选中博客!');
+    		return ;
+    	}
+    	if(ids.indexOf(',') > 0){
+    		$.messager.alert('提示','只能选择一个类型!');
+    		return ;
+    	}
+    	$.messager.confirm('确认','确定删除ID为 '+ids+' 的类型吗？',function(r){
+    	    if (r){
+    	    	var params = {"id":ids,"_method":"delete"};
+            	$.ajax({
+            		url:"/message/deleteComment",
+            		type:"post",
+            		data: params,
+            		dataType:"json",
+            		success:function(msg){
+            			if(msg.code != 0){
+            				$.messager.alert('错误','删除失败');
+            				return ;
+            			}
+            			$.messager.alert('提示','删除成功!',undefined,function(){
+        					$("#MessageList").datagrid("reload");
+        				});
+            		}
+            	});
+    	    }
+    	});
+    }
+}];
+</script>
+</html>

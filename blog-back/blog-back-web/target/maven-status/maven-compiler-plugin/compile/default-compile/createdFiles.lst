@@ -1,0 +1,6 @@
+com\zyt\blog\controller\BlogTypeAdminController.class
+com\zyt\blog\controller\UploadController.class
+com\zyt\blog\interceptor\LoginInterceptor.class
+com\zyt\blog\controller\BlogAdminController.class
+com\zyt\blog\controller\AttachedController.class
+com\zyt\blog\controller\MessageAdminController.class
