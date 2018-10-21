@@ -12,7 +12,7 @@
 ![xxx](https://github.com/zytKing/MyBlog/blob/master/images/show2.png)
 登陆板块
 ---
-<br>登陆成功会在cookie和redis服务里面存一个Token他代表用户的唯一标志
+登陆成功会在cookie和redis服务里面存一个Token他代表用户的唯一标志
 ![xxx](https://github.com/zytKing/MyBlog/blob/master/images/show4.png)
 后台版块（easyUI实现）
 ---
