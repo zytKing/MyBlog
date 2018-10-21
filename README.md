@@ -12,10 +12,11 @@
 ![xxx](https://github.com/zytKing/MyBlog/blob/master/images/show2.png)
 登陆板块
 ---
+<br>登陆成功会在cookie和redis服务里面存一个Token他代表用户的唯一标志
 ![xxx](https://github.com/zytKing/MyBlog/blob/master/images/show4.png)
 后台版块（easyUI实现）
 ---
-这里有一个拦截器，拦截器回去cookie里去找Token找不到就返回登陆页面
+这里有一个拦截器，拦截器会去cookie和redis服务里去找Token找不到就返回登陆页面
 ![xxx](https://github.com/zytKing/MyBlog/blob/master/images/show5.png)
 写博客页面，用的kindeditor富文本编辑器
 ---
