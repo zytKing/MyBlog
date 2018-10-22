@@ -24,7 +24,7 @@
 	<!-- 配置资源映射 -->
 	<mvc:resources location="/" mapping="*.html"/>
 	<mvc:resources location="/html/" mapping="/html/**"/>
-	<mvc:resources location="/static/css/" mapping="/static/css/**"/>
+	<mvc:resources location="/static/images/" mapping="/static/images/**"/>
 	<mvc:resources location="/js/" mapping="/js/**"/>
 	<mvc:resources location="/upload/" mapping="/upload/**"/>
 	<!-- 多媒体解析器 -->

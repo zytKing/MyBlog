@@ -23,7 +23,7 @@
                 <h2>博客后台系统</h2>
             </td>
             <td valign="bottom" align="right" width="50%">
-                <font size="3" color="#1e90ff">&nbsp;&nbsp;<strong>欢迎：</strong>xxx</font>
+                <font size="3" color="#1e90ff">&nbsp;&nbsp;<strong>欢迎：</strong><span id="user"></span> </font>
             </td>
         </tr>
     </table>
@@ -69,8 +69,8 @@
 	<div data-options="region:'center'" style="background: #eee;">
 		<div class="easyui-tabs"id="tabs" fit="true" border="false">
 			<div title="首页" data-options="iconCls:'icon-home'">
-				<div align="center" style="padding-top: 100px">
-					<font color="red" size="10">欢迎使用</font>
+				<div>
+					<img alt="#" src="static/images/background.png">
 				</div>
 			</div>
 		</div>
@@ -79,4 +79,26 @@
 			Copyright © 2018 zyt 版权所有
 	</div>
 </body>
+<script type="text/javascript">
+	$(function(){
+		var Request = new Object(); 
+		Request = GetRequest();
+		name = Request['name']
+		console.log(name);
+		$('#user').append(name);		
+	});
+	
+	function GetRequest() { 
+		var url = location.search; //获取url中"?"符后的字串 
+		var theRequest = new Object(); 
+		if (url.indexOf("?") != -1) { 
+		var str = url.substr(1); 
+		strs = str.split("&"); 
+		for(var i = 0; i < strs.length; i ++) { 
+		theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+		} 
+		} 
+		return theRequest; 
+	} 
+</script>
 </html>
