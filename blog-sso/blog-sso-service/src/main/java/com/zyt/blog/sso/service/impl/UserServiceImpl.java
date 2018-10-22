@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
 		user.setPASSWORD(null);
 		jedisClient.set("USER_SESSION:"+token, JsonUtils.objectToJson(user));
 		jedisClient.expire("USER_SESSION:"+token, 1800);
+		message.put("name", loginname);
 		message.setDes(token);
 		System.out.println(message.getCode());
 		return message;
