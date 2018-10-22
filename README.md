@@ -1,4 +1,6 @@
 # MyBlog
+项目主要是用Spring + SpringMVC + MyBatis框架部分功能使用了Redis做缓存，并使用RabbitMQ做同步
+前段使用的是Html+css+js+bootstrap后台使用的是EasyUI
 以下是部分功能展示
 ===
 首页板块
