@@ -34,7 +34,7 @@ window.onload = function ()
 	Request = GetRequest();
 	id = Request['typeId']
 	console.log(id);
-	showBlogByType(1,1,id);
+	showBlogByType(1,4,id);
 }
 
 function showBlogByType(page,rows,typeId){
@@ -119,15 +119,6 @@ function showBlogByType(page,rows,typeId){
 	<!-- <div class="pagelist"><a title="Total record">&nbsp;<b>45</b> </a>&nbsp;&nbsp;&nbsp;<b>1</b>&nbsp;<a href="/download/index_2.html">2</a>&nbsp;<a href="/download/index_2.html">下一页</a>&nbsp;<a href="/download/index_2.html">尾页</a></div> -->
   </div>
   <div class="sidebar">
-    <!-- <div class="search">
-      <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
-        <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
-        <input name="show" value="title" type="hidden">
-        <input name="tempid" value="1" type="hidden">
-        <input name="tbname" value="news" type="hidden">
-        <input name="Submit" class="input_submit" value="搜索" type="submit">
-      </form>
-    </div> -->
     <div class="lmnav">
       <h2 class="hometitle">栏目导航</h2>
       <ul class="navbor">
@@ -140,27 +131,32 @@ function showBlogByType(page,rows,typeId){
       </ul>
     </div>
     <div class="paihang">
-      <h2 class="hometitle">点击排行</h2>
-      <ul>
-        <li><b><a href="/download/div/2015-04-10/746.html" target="_blank">【活动作品】柠檬绿兔小白个人博客模板30...</a></b>
-          <p><i><img src="../static/images/t02.jpg"></i>展示的是首页html，博客页面布局格式简单，没有复杂的背景，色彩局部点缀，动态的幻灯片展示，切换卡，标...</p>
-        </li>
-      </ul>
+      <h2 class="hometitle">推荐</h2>
+     	<ul>
+			<li><b><a href="/download/div/2015-04-10/746.html"
+					target="_blank">航海者虽比观望者要冒更大的风险，但却有希望到达彼岸。</a></b>
+				<p>
+					<i><img src="../static/images/t02.jpg"></i>简单的生活之所以很不容易，是因为要活的简单，一定不能想的太多。
+				</p></li>
+		</ul>
     </div>
     <div class="cloud">
-      <h2 class="hometitle">标签云</h2>
-      <ul>
-        <a href="/">陌上花开</a> <a href="/">校园生活</a> <a href="/">html5</a> <a href="/">SumSung</a> <a href="/">青春</a> <a href="/">温暖</a> <a href="/">阳光</a> <a href="/">三星</a><a href="/">索尼</a> <a href="/">华维荣耀</a> <a href="/">三星</a> <a href="/">索尼</a>
-      </ul>
-    </div>
-    <div class="paihang">
-      <h2 class="hometitle">站长推荐</h2>
-      <ul>
-        <li><b><a href="/download/div/2015-04-10/746.html" target="_blank">【活动作品】柠檬绿兔小白个人博客模板30...</a></b>
-          <p><i><img src="../static/images/t02.jpg"></i>展示的是首页html，博客页面布局格式简单，没有复杂的背景，色彩局部点缀，动态的幻灯片展示，切换卡，标...</p>
-        </li>
-      </ul>
-    </div>
+				<h2 class="hometitle">标签云</h2>
+				<ul>
+					<a href="/">JAVA</a>
+					<a href="/">WEB</a>
+					<a href="/">SPRING</a>
+					<a href="/">AJAX</a>
+					<a href="/">JDBC</a>
+					<a href="/">MYSQL</a>
+					<a href="/">MYBATIS</a>
+					<a href="/">NGINX</a>
+					<a href="/">REDIS</a>
+					<a href="/">MYCAT</a>
+					<a href="/">DUBBO</a>
+					<a href="/">SPRINGCLUD</a>
+				</ul>
+			</div>
   </div>
 </article>
 <footer>

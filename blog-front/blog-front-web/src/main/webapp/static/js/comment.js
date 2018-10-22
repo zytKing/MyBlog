@@ -26,7 +26,7 @@ function xxx(msg){
 	$.each(data,function(i,blog){
 		var t = new Date(blog.date).toLocaleString(); 
 		content = content
-			+"<li> <span class='blogpic'><a href='/'><img src='../static/images/text02.jpg'></a></span>"
+			+"<li> <span class='blogpic'><a href='/'><img src='../static/images/zd01.jpg'></a></span>"
 			+" <h3 class='blogtitle'><a href='/'>"+blog.title+"</a></h3>"
 			+" <div class='bloginfo'>"
 			+"   <p>"+blog.digest+"</p>"
