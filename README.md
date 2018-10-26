@@ -9,6 +9,9 @@
 分类博客板块
 ---
 ![xxx](https://github.com/zytKing/MyBlog/blob/master/images/show3.png)
+博文板块
+---
+![xxx](https://github.com/zytKing/MyBlog/blob/master/images/show8.png)
 留言板块
 ---
 ![xxx](https://github.com/zytKing/MyBlog/blob/master/images/show2.png)
